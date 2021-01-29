@@ -1,6 +1,7 @@
 package core;
 
-import java.util.Date;
+import java.time.LocalDateTime;
+
 import org.apache.mina.core.service.IoHandlerAdapter;
 import org.apache.mina.core.session.IoSession;
 
@@ -17,9 +18,8 @@ public class ServerHandler extends IoHandlerAdapter {
             return;
         }
 
-        if (str.trim().equals("data")) {
-            Date date = new Date();
-            session.write(date.toString());
+        if (str.trim().equals("data")) {            
+            session.write(LocalDateTime.now().toString());
         } else {
             session.write("echo " + str);
         }
