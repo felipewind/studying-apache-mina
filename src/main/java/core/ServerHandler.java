@@ -1,0 +1,29 @@
+package core;
+
+import java.time.LocalDateTime;
+
+import org.apache.mina.core.service.IoHandlerAdapter;
+import org.apache.mina.core.session.IoSession;
+
+public class ServerHandler extends IoHandlerAdapter {
+
+    @Override
+    public void messageReceived(IoSession session, Object message) throws Exception {
+        String str = message.toString();
+
+        System.out.println("Message received: " + str);
+
+        if (str.trim().equalsIgnoreCase("quit")) {
+            session.close(true);
+            return;
+        }
+
+        if (str.trim().equals("data")) {            
+            session.write(LocalDateTime.now().toString());
+        } else {
+            session.write("echo " + str);
+        }
+
+        System.out.println("Message written...");
+    }
+}
